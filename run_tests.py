@@ -5,8 +5,6 @@ N_TESTS = 5
 r = sr.Recognizer()
 
 
-
-
 def emulate_recognize(s):
     s = s.replace('.', '')
     s = s.replace(',', '')
