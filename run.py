@@ -1,26 +1,38 @@
 import speech_recognition as sr
 import json
+import wave
+from math import ceil
 
 print("Working...")
+file = open("Interview.txt", 'w')
+file.close()
 r = sr.Recognizer()
 try:
-    interview = sr.AudioFile("Interview.wav")
-    with interview as source:
-        audio = r.record(source)
+    raw_wav = wave.open("Interview.wav", 'rb')
 except FileNotFoundError:
     print("Put \"Interview.wav\" in this directory!")
     input()
 else:
-    file = open("Interview.txt", 'w')
-    try:
-        file.write(r.recognize_google(audio, language='ru-RU'))
-        file.close()
-    except json.decoder.JSONDecodeError:
-        print("Your request is empty or the Internet connection lost")
-        input()
-    except sr.RequestError:
-        print("Request error. Probably your file is too large")
-        input()
-    else:
-        print("Success!")
-        input()
+    fpm = raw_wav.getframerate() * 60
+    n = ceil(raw_wav.getnframes() / fpm)
+    for i in range(n):
+        wav = wave.open("Audio_parts/Interview_temp{}.wav".format(i), 'wb')
+        wav.setparams(raw_wav.getparams())
+        wav.setnframes(fpm)
+        wav.writeframes(raw_wav.readframes(fpm))
+        wav.close()
+        interview = sr.AudioFile("Audio_parts/Interview_temp{}.wav".format(i))
+        with interview as source:
+            audio = r.record(source)
+        file = open("Interview.txt", 'w+')
+        try:
+            recognized_text = r.recognize_google(audio, language='ru-RU')
+            file.write(recognized_text)
+            file.close()
+        except:
+            print("Seems like this part of audio is corrupt or contains nothing")
+            
+        print("{}/{} done".format(i + 1, n + 1))
+        print(recognized_text)
+    print("Success!")
+    input()
