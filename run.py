@@ -31,7 +31,7 @@ else:
         except:
             print("Seems like this part of audio is corrupt or contains nothing")
         file.close()
-        print("{}/{} done".format(i + 1, n + 1))
+        print("{}/{} done".format(i + 1, n))
         print(recognized_text)
     print("Success!")
     input()
