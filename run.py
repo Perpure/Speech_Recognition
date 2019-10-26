@@ -28,10 +28,9 @@ else:
         try:
             recognized_text = r.recognize_google(audio, language='ru-RU')
             file.write(recognized_text)
-            file.close()
         except:
             print("Seems like this part of audio is corrupt or contains nothing")
-            
+        file.close()
         print("{}/{} done".format(i + 1, n + 1))
         print(recognized_text)
     print("Success!")
