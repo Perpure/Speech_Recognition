@@ -1,3 +1,8 @@
+Interview.txt
+Interview.wav
+Audio_parts/*
+!Audio_parts/.gitkeep
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
