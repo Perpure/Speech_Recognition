@@ -24,7 +24,7 @@ else:
         interview = sr.AudioFile("Audio_parts/Interview_temp{}.wav".format(i))
         with interview as source:
             audio = r.record(source)
-        file = open("Interview.txt", 'w+')
+        file = open("Interview.txt", 'a')
         try:
             recognized_text = r.recognize_google(audio, language='ru-RU')
             file.write(recognized_text)
